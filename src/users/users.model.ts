@@ -1,3 +1,4 @@
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   BelongsToMany,
@@ -14,8 +15,10 @@ interface UserCreationAttrs {
   password: string;
 }
 
+@ObjectType()
 @Table({ tableName: 'users' })
 export class User extends Model<User, UserCreationAttrs> {
+  @Field(() => ID)
   @ApiProperty({ example: '1', description: 'Unique identifier' })
   @Column({
     type: DataType.INTEGER,
@@ -25,10 +28,12 @@ export class User extends Model<User, UserCreationAttrs> {
   })
   id: number;
 
+  @Field()
   @ApiProperty({ example: 'user@gmail.com', description: 'Email address' })
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   email: string;
 
+  @Field()
   @ApiProperty({ example: '1234_abcd', description: 'Password' })
   @Column({ type: DataType.STRING, allowNull: false })
   password: string;
